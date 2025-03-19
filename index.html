@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lernportfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Lernportfolio</h1>
+        <input type="text" id="searchInput" placeholder="Nach Themen suchen...">
+        <nav>
+            <button data-subject="alle" class="active">Alle</button>
+            <button data-subject="deutsch">Deutsch</button>
+            <button data-subject="mathe">Mathe</button>
+            <button data-subject="englisch">Englisch</button>
+        </nav>
+    </header>
+    <main>
+        <section id="topics">
+            <!-- Themen werden hier dynamisch eingefügt -->
+        </section>
+    </main>
+    <!-- Modal -->
+<div id="modal" class="modal">
+    <div class="modal-content" id="modal-content">
+        <!-- Hier wird der Inhalt des Modals dynamisch eingefügt -->
+    </div>
+</div>
+    <script src="app.js"></script>
+</body>
+</html>
