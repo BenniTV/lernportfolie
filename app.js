@@ -63,6 +63,28 @@ const topics = [
     }
 ];
 
+// Beispielaufgaben
+const quizQuestions = [
+    {
+        subject: "Deutsch",
+        question: "Was ist die richtige Schreibweise?",
+        options: ["Das Auto, dass ich fahre.", "Das Auto, das ich fahre."],
+        correct: 1
+    },
+    {
+        subject: "Mathe",
+        question: "Was ist 5 + 3?",
+        options: ["6", "8", "9"],
+        correct: 1
+    },
+    {
+        subject: "Englisch",
+        question: "Wie übersetzt man 'Haus' ins Englische?",
+        options: ["House", "Home", "Building"],
+        correct: 0
+    }
+];
+
 // Elemente aus dem DOM
 const topicsContainer = document.getElementById('topics');
 const searchInput = document.getElementById('searchInput');
@@ -70,6 +92,9 @@ const navButtons = document.querySelectorAll('nav button');
 const modal = document.getElementById('modal');
 const modalContent = document.getElementById('modal-content');
 const modalClose = document.getElementById('modal-close');
+const quizContainer = document.getElementById('quiz-container');
+const quizSection = document.getElementById('quiz');
+const backToTopicsButton = document.getElementById('back-to-topics');
 
 // Aktuelles Fach (Standard: alle)
 let currentSubject = "alle";
@@ -93,7 +118,7 @@ function displayTopics(filteredTopics) {
 // Modal öffnen
 function openModal(topic) {
     modalContent.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div class="modal-header">
             <span class="subject-label">${topic.subject}</span>
             <span id="modal-close" class="modal-close">&times;</span>
         </div>
@@ -143,3 +168,69 @@ navButtons.forEach(button => {
 
 // Initial alle Themen anzeigen
 displayTopics(topics);
+
+// Funktion: Aufgaben anzeigen
+function displayQuiz(subject) {
+    quizContainer.innerHTML = ''; // Vorherige Aufgaben löschen
+    const filteredQuestions = quizQuestions.filter(q => q.subject === subject);
+
+    filteredQuestions.forEach((question, index) => {
+        const questionElement = document.createElement('div');
+        questionElement.classList.add('quiz-question');
+        questionElement.innerHTML = `
+            <h3>${index + 1}. ${question.question}</h3>
+            <div class="quiz-options">
+                ${question.options
+                    .map(
+                        (option, i) =>
+                            `<button class="quiz-option" data-index="${i}" data-correct="${question.correct}">${option}</button>`
+                    )
+                    .join('')}
+            </div>
+            <p class="quiz-feedback hidden"></p>
+        `;
+        quizContainer.appendChild(questionElement);
+    });
+
+    // Event Listener für die Antwort-Buttons
+    document.querySelectorAll('.quiz-option').forEach(button => {
+        button.addEventListener('click', checkAnswer);
+    });
+
+    // Themenbereich ausblenden, Quizbereich einblenden
+    topicsContainer.classList.add('hidden');
+    quizSection.classList.remove('hidden');
+}
+
+// Funktion: Antwort überprüfen
+function checkAnswer(event) {
+    const button = event.target;
+    const selectedIndex = parseInt(button.getAttribute('data-index'));
+    const correctIndex = parseInt(button.getAttribute('data-correct'));
+    const feedback = button.parentElement.nextElementSibling;
+
+    if (selectedIndex === correctIndex) {
+        feedback.textContent = 'Richtig! 🎉';
+        feedback.classList.add('correct');
+    } else {
+        feedback.textContent = 'Falsch. 😞';
+        feedback.classList.add('incorrect');
+    }
+
+    feedback.classList.remove('hidden');
+    button.parentElement.querySelectorAll('button').forEach(btn => btn.disabled = true);
+}
+
+// Event Listener: Zurück zu den Themen
+backToTopicsButton.addEventListener('click', () => {
+    quizSection.classList.add('hidden');
+    topicsContainer.classList.remove('hidden');
+});
+
+// Beispiel: Quiz für Deutsch anzeigen (kann durch Themenkarten getriggert werden)
+document.querySelectorAll('.topic').forEach(topic => {
+    topic.addEventListener('click', () => {
+        const subject = topic.querySelector('.subject-label').textContent;
+        displayQuiz(subject);
+    });
+});

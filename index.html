@@ -9,7 +9,7 @@
 <body>
     <header>
         <h1>Lernportfolio</h1>
-        <input type="text" id="searchInput" placeholder="Nach Themen suchen...">
+        <input type="text" id="searchInput" placeholder="🔍 Nach Themen suchen...">
         <nav>
             <button data-subject="alle" class="active">Alle</button>
             <button data-subject="deutsch">Deutsch</button>
@@ -19,15 +19,22 @@
     </header>
     <main>
         <section id="topics">
-            <!-- Themen werden hier dynamisch eingefügt -->
+            <!-- Themenkarten werden hier dynamisch eingefügt -->
+        </section>
+        <section id="quiz" class="hidden">
+            <h2>Interaktive Aufgaben</h2>
+            <div id="quiz-container">
+                <!-- Aufgaben werden hier dynamisch eingefügt -->
+            </div>
+            <button id="back-to-topics">Zurück zu den Themen</button>
         </section>
     </main>
     <!-- Modal -->
-<div id="modal" class="modal">
-    <div class="modal-content" id="modal-content">
-        <!-- Hier wird der Inhalt des Modals dynamisch eingefügt -->
+    <div id="modal" class="modal">
+        <div class="modal-content" id="modal-content">
+            <!-- Dynamischer Inhalt -->
+        </div>
     </div>
-</div>
     <script src="app.js"></script>
 </body>
 </html>
