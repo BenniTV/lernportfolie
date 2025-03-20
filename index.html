@@ -3,38 +3,620 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lernportfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Schulwissen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Zusätzliche Animationen */
+        .hover-grow:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease-in-out;
+        }
+        .hover-bounce:hover {
+            animation: bounce 0.5s;
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <h1>Lernportfolio</h1>
-        <input type="text" id="searchInput" placeholder="🔍 Nach Themen suchen...">
-        <nav>
-            <button data-subject="alle" class="active">Alle</button>
-            <button data-subject="deutsch">Deutsch</button>
-            <button data-subject="mathe">Mathe</button>
-            <button data-subject="englisch">Englisch</button>
-        </nav>
+<body class="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-purple-800 text-white text-center py-12 shadow-lg">
+        <h1 class="text-5xl font-extrabold tracking-wide">9R</h1>
+        <p class="text-xl mt-4 font-light">Entdeckt spannende Themen und interaktive Übungen für die Klasse!</p>
     </header>
-    <main>
-        <section id="topics">
-            <!-- Themenkarten werden hier dynamisch eingefügt -->
-        </section>
-        <section id="quiz" class="hidden">
-            <h2>Interaktive Aufgaben</h2>
-            <div id="quiz-container">
-                <!-- Aufgaben werden hier dynamisch eingefügt -->
-            </div>
-            <button id="back-to-topics">Zurück zu den Themen</button>
-        </section>
-    </main>
-    <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content" id="modal-content">
-            <!-- Dynamischer Inhalt -->
+
+    <!-- Suchleiste -->
+    <div class="container mx-auto my-8 px-4">
+        <div class="flex items-center justify-center">
+            <input type="text" class="border border-gray-300 rounded-l-lg p-3 w-2/3 focus:outline-none focus:ring-4 focus:ring-pink-400 text-gray-900 bg-white" placeholder="Suchbegriff eingeben...">
+            <button class="bg-pink-600 text-white px-6 py-3 rounded-r-lg hover:bg-pink-700 hover-grow">Suchen</button>
         </div>
     </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md py-4 rounded-lg mx-4">
+        <div class="container mx-auto flex justify-center space-x-8">
+            <a href="#" class="text-pink-600 font-bold hover:text-pink-800 hover-grow active" onclick="showSubjects('deutsch')">📚 Deutsch</a>
+            <a href="#" class="text-pink-600 font-bold hover:text-pink-800 hover-grow" onclick="showSubjects('mathe')">📐 Mathe</a>
+            <a href="#" class="text-pink-600 font-bold hover:text-pink-800 hover-grow" onclick="showSubjects('geschichte')">📜 Geschichte</a>
+        </div>
+    </nav>
+
+    <!-- Sektionen -->
+    <section id="deutsch" style="display: block;" class="container mx-auto my-12 px-6 py-8 bg-white shadow-lg rounded-lg hover-grow">
+        <h2 class="text-3xl font-extrabold text-purple-700 mb-6">📖 Deutsch</h2>
+        <p class="text-gray-700 mb-4">Willkommen in der Deutsch-Sektion! Wähle ein Thema:</p>
+
+        <!-- Vorschau der Themen -->
+        <div id="deutsch-preview" class="space-y-4">
+            <div class="bg-gray-100 p-4 rounded-lg shadow hover:bg-gray-200 cursor-pointer" onclick="showDeutschTopic('pronomen')">
+                <h3 class="text-xl font-bold text-purple-700">🔤 Pronomen</h3>
+                <p class="text-gray-600">Lerne, wie Pronomen Substantive ersetzen oder begleiten.</p>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow hover:bg-gray-200 cursor-pointer" onclick="showDeutschTopic('wortarten')">
+                <h3 class="text-xl font-bold text-purple-700">📚 Wortarten</h3>
+                <p class="text-gray-600">Entdecke die grundlegenden Bausteine der Sprache.</p>
+            </div>
+            <!-- Neue Vorschau-Karte für Prosa-Analyse -->
+            <div class="bg-gray-100 p-4 rounded-lg shadow hover:bg-gray-200 cursor-pointer" onclick="showDeutschTopic('prosa-analyse')">
+                <h3 class="text-xl font-bold text-purple-700">📖 Prosa-Analyse</h3>
+                <p class="text-gray-600">Lerne literarische Texte zu analysieren und zu interpretieren.</p>
+            </div>
+            <!-- Neue Vorschau-Karte für Das und Dass -->
+            <div class="bg-gray-100 p-4 rounded-lg shadow hover:bg-gray-200 cursor-pointer" onclick="showDeutschTopic('dasunddass')">
+                <h3 class="text-xl font-bold text-purple-700">📝 Das oder dass?</h3>
+                <p class="text-gray-600">Lerne die Regeln und übe den richtigen Gebrauch.</p>
+            </div>
+            <!-- Neue Vorschau-Karte für Stilmittel -->
+            <div class="bg-gray-100 p-4 rounded-lg shadow hover:bg-gray-200 cursor-pointer" onclick="showDeutschTopic('stilmittel')">
+                <h3 class="text-xl font-bold text-purple-700">🎨 Stilmittel</h3>
+                <p class="text-gray-600">Entdecke die verschiedenen Stilmittel und ihre Anwendung.</p>
+            </div>
+        </div>
+
+        <div id="pronomen" class="topic hidden">
+            <h3 class="text-2xl font-bold text-purple-700 mb-4">🔤 Pronomen – Was ist das?</h3>
+            <p class="text-gray-700 mb-4">
+                Pronomen sind Wörter, die Namen oder Dinge ersetzen. Sie helfen, Wiederholungen zu vermeiden, damit Texte kürzer und verständlicher werden. 
+                <br><strong>Beispiel:</strong> Statt immer „Der Hund“ zu sagen: „Der Hund läuft. <strong>Er</strong> bellt.“
+            </p>
+
+    <!-- Merkblock -->
+    <div class="bg-purple-100 border-l-4 border-purple-700 p-4 mb-6">
+        <h4 class="text-lg font-bold text-purple-700">💡 Merke:</h4>
+        <p class="text-gray-700">
+            Pronomen passen sich an Person (ich, du, er), Zahl (Singular/Plural) und Geschlecht (männlich, weiblich, sächlich) an.
+        </p>
+        <p class="text-gray-700 mt-2 font-semibold">✍️ Eselsbrücken:</p>
+        <ul class="list-disc list-inside text-gray-700">
+            <li>🔄 <strong>„Pro-Namen“:</strong> Pronomen stehen „für“ (pro) einen Namen.</li>
+            <li>👥 <strong>Persönliches Pronomen = Personalpronomen:</strong> „Ich“ und „Du“ sind persönlich, also Personalpronomen.</li>
+            <li>👜 <strong>Possessiv = Besitz:</strong> Wenn du etwas „besitzt“, dann nutzt du ein Possessivpronomen, z. B. „mein Buch“.</li>
+            <li>👉 <strong>Demonstrativ = Zeigen:</strong> Stell dir vor, du zeigst mit dem Finger auf etwas – „dieser“ Tisch, „jener“ Stuhl.</li>
+            <li>🔍 <strong>Relativ = Bezug nehmen:</strong> Relativpronomen leiten Nebensätze ein und beziehen sich auf etwas vorher Erwähntes.</li>
+            <li>❓ <strong>Frage = Fragepronomen:</strong> Alles, was eine Frage stellt („wer“, „was“, „welcher“), ist ein Fragepronomen.</li>
+        </ul>
+    </div>
+
+    <!-- Warum brauchen wir Pronomen? -->
+    <h4 class="text-xl font-bold text-purple-700 mb-4">🤔 Warum sind Pronomen wichtig?</h4>
+    <p class="text-gray-700 mb-4">
+        Stell dir vor, du müsstest in jedem Satz die gleichen Namen oder Begriffe wiederholen. Das wäre langweilig und schwer zu lesen!
+        <br><strong>Beispiel ohne Pronomen:</strong> „Lisa geht zur Schule. Lisa trifft Lisa Freundin. Lisa und Lisa Freundin spielen.“
+        <br><strong>Beispiel mit Pronomen:</strong> „Lisa geht zur Schule. Dort trifft <strong>sie</strong> <strong>ihre</strong> Freundin. <strong>Sie</strong> spielen zusammen.“
+    </p>
+
+    <h4 class="text-xl font-bold text-purple-700 mb-4">🧐 Die verschiedenen Arten von Pronomen</h4>
+    <p class="text-gray-700 mb-4">
+        Es gibt verschiedene Pronomenarten, die jeweils eine spezielle Funktion haben. Die folgende Tabelle erklärt sie im Detail:
+    </p>
+
+    <!-- Tabelle mit Pronomenarten -->
+    <table class="min-w-full bg-white border border-gray-300 text-gray-900 mb-6">
+        <thead class="bg-purple-800 text-white">
+            <tr>
+                <th class="px-4 py-2 border-b">Pronomen-Art</th>
+                <th class="px-4 py-2 border-b">Beispiele</th>
+                <th class="px-4 py-2 border-b">Einfache Erklärung</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-purple-100">
+                <td class="px-4 py-2 border-b">Personalpronomen</td>
+                <td class="px-4 py-2 border-b">ich, du, er, sie, es, wir, ihr, sie</td>
+                <td class="px-4 py-2 border-b">Ersetzen Namen oder Dinge.<br>„<strong>Ich</strong> bin müde.“</td>
+            </tr>
+            <tr class="bg-purple-200">
+                <td class="px-4 py-2 border-b">Possessivpronomen</td>
+                <td class="px-4 py-2 border-b">mein, dein, sein, ihr, unser, euer</td>
+                <td class="px-4 py-2 border-b">Zeigen Besitz.<br>„Das ist <strong>mein</strong> Auto.“</td>
+            </tr>
+            <tr class="bg-purple-100">
+                <td class="px-4 py-2 border-b">Demonstrativpronomen</td>
+                <td class="px-4 py-2 border-b">dieser, jener, derselbe</td>
+                <td class="px-4 py-2 border-b">Heben etwas hervor.<br>„<strong>Dieser</strong> Stift gehört mir.“</td>
+            </tr>
+            <tr class="bg-purple-200">
+                <td class="px-4 py-2 border-b">Relativpronomen</td>
+                <td class="px-4 py-2 border-b">der, die, das, welcher</td>
+                <td class="px-4 py-2 border-b">Leiten Nebensätze ein.<br>„Das Auto, <strong>das</strong> ich gekauft habe, ist blau.“</td>
+            </tr>
+            <tr class="bg-purple-100">
+                <td class="px-4 py-2 border-b">Fragepronomen</td>
+                <td class="px-4 py-2 border-b">wer, was, welcher</td>
+                <td class="px-4 py-2 border-b">Stellen Fragen.<br>„<strong>Wer</strong> hat das gesagt?“</td>
+            </tr>
+            <tr class="bg-purple-200">
+                <td class="px-4 py-2 border-b">Reflexivpronomen</td>
+                <td class="px-4 py-2 border-b">mich, dich, sich, uns, euch</td>
+                <td class="px-4 py-2 border-b">Beziehen sich auf das Subjekt.<br>„Ich freue <strong>mich</strong>.“</td>
+            </tr>
+            <tr class="bg-purple-100">
+                <td class="px-4 py-2 border-b">Indefinitpronomen</td>
+                <td class="px-4 py-2 border-b">jemand, niemand, alle, einige</td>
+                <td class="px-4 py-2 border-b">Bezeichnen etwas Unbestimmtes.<br>„<strong>Jemand</strong> hat geklopft.“</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Beispiele für Pronomen -->
+    <h4 class="text-xl font-bold text-purple-700 mb-4">📚 Beispiele:</h4>
+    <ul class="list-disc list-inside text-gray-700 mb-6">
+        <li><strong>Personalpronomen:</strong> „Ich gehe nach Hause, weil ich müde bin.“</li>
+        <li><strong>Possessivpronomen:</strong> „Das ist mein Fahrrad, nicht deins.“</li>
+        <li><strong>Relativpronomen:</strong> „Das ist der Hund, der gestern gebellt hat.“</li>
+        <li><strong>Fragepronomen:</strong> „Wer hat das gemacht?“</li>
+        <li><strong>Indefinitpronomen:</strong> „Niemand war zu Hause.“</li>
+    </ul>
+
+<!-- Interaktive Aufgaben -->
+<div id="pronomen-questions" class="space-y-4">
+    <!-- Dynamische Fragen werden hier eingefügt -->
+</div>
+<div id="pronomen-timer" class="text-purple-700 font-bold mb-4" style="display: none;">
+    Zeit bis zur nächsten Frage: <span id="timer-countdown">10</span> Sekunden
+</div>
+<div id="pronomen-controls" class="space-x-4" style="display: none;">
+    <button id="skip-button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">Überspringen</button>
+    <button id="next-button" class="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800" disabled>Weiter</button>
+</div>
+<button class="mt-4 bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800" onclick="showDeutschTopic('preview')">Zurück zur Übersicht</button>
+        </div>
+
+        <div id="wortarten" class="topic hidden">
+            <h3 class="text-2xl font-bold text-purple-700 mb-4">📚 Wortarten</h3>
+            <p class="text-gray-700 mb-4">
+                Wortarten sind die grundlegenden Bausteine der Sprache. Sie helfen uns, Sätze zu bilden und die Bedeutung von Wörtern zu verstehen.
+            </p>
+        
+            <!-- Warum sind Wortarten wichtig? -->
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-6">
+                <h4 class="font-bold">🔎 Warum sind Wortarten wichtig?</h4>
+                <ul class="list-disc list-inside">
+                    <li>Sie helfen uns, die Struktur von Sätzen zu verstehen.</li>
+                    <li>Sie zeigen, wie Wörter miteinander verbunden sind.</li>
+                    <li>Sie erleichtern das Lernen von Grammatikregeln.</li>
+                </ul>
+            </div>
+        
+            <!-- Tabelle mit Wortarten -->
+            <table class="min-w-full bg-white border border-gray-300 text-gray-900 mb-6">
+                <thead class="bg-purple-700 text-white">
+                    <tr>
+                        <th class="px-4 py-2 border-b">Wortart</th>
+                        <th class="px-4 py-2 border-b">Beispiel</th>
+                        <th class="px-4 py-2 border-b">Beschreibung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="px-4 py-2">Nomen</td>
+                        <td class="px-4 py-2">Haus, Katze, Freiheit</td>
+                        <td class="px-4 py-2">Bezeichnen Dinge, Personen, Orte oder Konzepte.</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="px-4 py-2">Verben</td>
+                        <td class="px-4 py-2">laufen, sprechen, denken</td>
+                        <td class="px-4 py-2">Beschreiben Handlungen, Zustände oder Vorgänge.</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="px-4 py-2">Adjektive</td>
+                        <td class="px-4 py-2">schön, groß, schnell</td>
+                        <td class="px-4 py-2">Beschreiben Eigenschaften oder Merkmale von Nomen.</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="px-4 py-2">Pronomen</td>
+                        <td class="px-4 py-2">ich, du, mein, dieser</td>
+                        <td class="px-4 py-2">Ersetzen oder begleiten Nomen.</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="px-4 py-2">Adverbien</td>
+                        <td class="px-4 py-2">heute, schnell, dort</td>
+                        <td class="px-4 py-2">Beschreiben Umstände wie Zeit, Ort oder Art und Weise.</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="px-4 py-2">Konjunktionen</td>
+                        <td class="px-4 py-2">und, aber, weil</td>
+                        <td class="px-4 py-2">Verbinden Wörter, Satzteile oder Sätze.</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="px-4 py-2">Präpositionen</td>
+                        <td class="px-4 py-2">auf, unter, neben</td>
+                        <td class="px-4 py-2">Geben an, wo oder wann etwas passiert.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-2">Interjektionen</td>
+                        <td class="px-4 py-2">Oh!, Aua!, Hey!</td>
+                        <td class="px-4 py-2">Drücken Gefühle oder Reaktionen aus.</td>
+                    </tr>
+                </tbody>
+            </table>
+        
+            <!-- Merkkasten -->
+            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6">
+                <h4 class="font-bold">🎯 Merkkasten: So merkst du dir die Wortarten leicht!</h4>
+                <ul class="list-disc list-inside">
+                    <li><strong>Nomen:</strong> Alles, was man sehen, anfassen oder denken kann, schreibt man groß! 🏠</li>
+                    <li><strong>Verben:</strong> Verben sind „Tuwörter“, sie sagen, was passiert. 🏃</li>
+                    <li><strong>Adjektive:</strong> Sie beschreiben Nomen und sagen, wie etwas ist. 🎨</li>
+                    <li><strong>Adverbien:</strong> Sie sagen, wann, wo oder wie etwas geschieht. ⏰</li>
+                    <li><strong>Konjunktionen:</strong> Sie verbinden Sätze miteinander. 🔗</li>
+                    <li><strong>Präpositionen:</strong> Sie zeigen Orte oder Zeiten an. 📍</li>
+                    <li><strong>Interjektionen:</strong> Ausrufe und Gefühle in einem Wort! 😲</li>
+                </ul>
+            </div>
+        
+            <!-- Eselsbrücken -->
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6">
+                <h4 class="font-bold">🤓 Eselsbrücken zum Lernen</h4>
+                <ul class="list-disc list-inside">
+                    <li><strong>Nomen – DIE 4F-Regel:</strong> <br>F<strong>ü</strong>r Namen, F<strong>ü</strong>r Dinge, F<strong>ü</strong>r Orte, F<strong>ü</strong>r Gefühle → Großschreiben!</li>
+                    <li><strong>Verben – Die „Was-tut-es?“-Frage:</strong> <br>„Was tut das Kind?“ → Es <em>springt</em>, <em>lacht</em>, <em>rennt</em>.</li>
+                    <li><strong>Adjektive – Steigerungs-Trick:</strong> <br>Wenn du es steigern kannst, ist es ein Adjektiv!<br>**schnell – schneller – am schnellsten** ✅</li>
+                    <li><strong>Konjunktionen – Die „Verbindungsbrücke“:</strong> <br>„und“, „weil“, „aber“, „denn“ sind die Brücken zwischen Satzteilen!</li>
+                    <li><strong>Präpositionen – Der „Kistentrick“:</strong> <br>Alles, was du mit einer Kiste machen kannst: <br><em>auf, in, unter, neben, vor, hinter</em>!</li>
+                </ul>
+            </div>
+    <!-- Interaktive Aufgaben -->
+    <h4 class="text-xl font-bold text-purple-700 mb-4">📝 Interaktive Aufgaben:</h4>
+    <div id="wortarten-questions" class="space-y-4">
+        <!-- Dynamische Fragen werden hier eingefügt -->
+    </div>
+    <div id="wortarten-timer" class="text-purple-700 font-bold mb-4" style="display: none;">
+        Zeit bis zur nächsten Frage: <span id="wortarten-countdown">10</span> Sekunden
+    </div>
+    <div id="wortarten-controls" class="space-x-4" style="display: none;">
+        <button id="wortarten-skip-button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">Überspringen</button>
+        <button id="wortarten-next-button" class="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800" disabled>Weiter</button>
+    </div>
+
+    <!-- Zurück-Button -->
+    <button class="mt-4 bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800" onclick="showDeutschTopic('preview')">Zurück zur Übersicht</button>
+</div>
+
+<div id="prosa-analyse" class="topic" style="display: none;">
+    <h3 class="text-2xl font-bold text-purple-700 mb-4">📖 Prosa-Analyse</h3>
+    <p class="text-gray-700 mb-4">Die Prosa-Analyse ist eine wichtige Fähigkeit im Deutschunterricht. Dabei geht es darum, literarische Texte zu verstehen und zu interpretieren.</p>
+
+    <!-- Merkblock -->
+    <div class="bg-purple-100 border-l-4 border-purple-700 p-4 mb-6">
+        <h4 class="text-lg font-bold text-purple-700">💡 Merke:</h4>
+        <p class="text-gray-700">
+            Bei der Analyse von Prosatexten achtet man auf verschiedene Aspekte wie Erzählperspektive, Charakterisierung, sprachliche Mittel, Handlungsaufbau und das zentrale Thema. Diese Elemente helfen, die Absicht des Autors und die Wirkung des Textes zu verstehen.
+        </p>
+    </div>
+
+    <!-- Eselsbrücke -->
+    <div class="bg-yellow-100 border-l-4 border-yellow-600 p-4 mb-6">
+        <h4 class="text-lg font-bold text-yellow-700">🧠 Eselsbrücke:</h4>
+        <p class="text-gray-700">
+            <strong>"Einsame Charaktere sprechen toll."</strong>  
+            Diese Eselsbrücke hilft dir, die wichtigsten Aspekte zu merken:
+        </p>
+        <ul class="list-disc list-inside text-gray-700">
+            <li><strong>E</strong>rzählperspektive</li>
+            <li><strong>C</strong>harakterisierung</li>
+            <li><strong>S</strong>prachliche Mittel</li>
+            <li><strong>T</strong>hema</li>
+        </ul>
+    </div>
+
+    <!-- Lerninfo zum TATTE-Satz -->
+    <div id="tatte-info" class="bg-blue-100 p-4 rounded-lg mb-6 border-l-4 border-blue-700">
+        <h4 class="text-xl font-bold text-blue-700 mb-2">📝 TATTE Satz – Lerninformation</h4>
+        <p class="text-gray-700">
+            Der TATTE Satz fasst wesentliche Bestandteile der Prosa-Analyse zusammen:
+            <strong>Text</strong> (Was wird beschrieben?),
+            <strong>Analyse</strong> (Wie wird der Text aufgebaut?),
+            <strong>Thematik</strong> (Welches zentrale Thema verfolgt der Text?),
+            <strong>Ton</strong> (Welche Stimmung liegt vor?),
+            <strong>Textstruktur</strong> (Wie ist der Text aufgebaut?) und
+            <strong>Eigene Interpretation</strong> (Wie wird der Text aufgenommen?).
+        </p>
+    </div>
+
+    <!-- Erweitertes Beispiel TATTE Satz -->
+    <div id="tatte-erweitert" class="bg-blue-50 p-4 rounded-lg mt-4 border-l-4 border-blue-500">
+        <h5 class="text-lg font-bold text-blue-700">Erweitertes Beispiel TATTE Satz:</h5>
+        <p class="text-gray-800">
+            "In <em>Der Steppenwolf</em> von Hermann Hesse (1927) wird die Zerrissenheit zwischen bürgerlicher Welt und künstlerischer Freiheit thematisiert: 
+            Der <strong>Text</strong> schildert die innere Zerrissenheit des Protagonisten Harry Haller, der zwischen Anpassung und Individualität schwankt. 
+            Die <strong>Analyse</strong> zeigt, dass der Wechsel zwischen Ich-Erzähler und Tagebuchform die Distanz und die Reflexion des Protagonisten verstärkt. 
+            Das <strong>Thema</strong> des Romans – die Suche nach Identität in einer modernen Gesellschaft – wird durch verschiedene Metaphern (z. B. das „Magische Theater“) verstärkt. 
+            Der <strong>Ton</strong> des Textes wechselt zwischen Melancholie und Hoffnung, wodurch Hallers innere Kämpfe verdeutlicht werden. 
+            Die <strong>Textstruktur</strong> nutzt Rahmenerzählungen, um verschiedene Ebenen der Wahrnehmung darzustellen. 
+            In der <strong>eigenen Interpretation</strong> kann der Roman als psychologische Selbstsuche gelesen werden, die sich auch auf heutige Sinnkrisen übertragen lässt."
+        </p>
+    </div>
+
+    <!-- Tabelle mit Analyseaspekten -->
+    <table class="min-w-full bg-white border border-gray-300 text-gray-900 mb-6">
+        <thead class="bg-purple-700 text-white">
+            <tr>
+                <th class="px-4 py-2 border-b">Analyseaspekt</th>
+                <th class="px-4 py-2 border-b">Erklärung</th>
+                <th class="px-4 py-2 border-b">Beispiele</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="px-4 py-2 border-b">Erzählperspektive</td>
+                <td class="px-4 py-2 border-b">Die Position, aus der erzählt wird.</td>
+                <td class="px-4 py-2 border-b">Ich-Erzähler, auktorialer Erzähler, personaler Erzähler</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2 border-b">Charakterisierung</td>
+                <td class="px-4 py-2 border-b">Beschreibung der Figuren und ihrer Eigenschaften.</td>
+                <td class="px-4 py-2 border-b">Direkte/indirekte Charakterisierung, Haupt-/Nebenfiguren</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2 border-b">Sprachliche Mittel</td>
+                <td class="px-4 py-2 border-b">Stilistische Werkzeuge des Autors.</td>
+                <td class="px-4 py-2 border-b">Metaphern, Vergleiche, Personifikationen</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2 border-b">Struktur</td>
+                <td class="px-4 py-2 border-b">Aufbau und Gliederung des Textes.</td>
+                <td class="px-4 py-2 border-b">Exposition, Höhepunkt, Auflösung, Kapitelstruktur</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2 border-b">Thema und Motive</td>
+                <td class="px-4 py-2 border-b">Zentrale Ideen und wiederkehrende Elemente.</td>
+                <td class="px-4 py-2 border-b">Liebe, Tod, Natur, Identität</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Beispiel für Analyse -->
+    <h4 class="text-xl font-bold text-purple-700 mb-4">📚 Beispiel:</h4>
+    <div class="bg-gray-100 p-4 rounded-lg mb-6">
+        <h5 class="text-lg font-bold text-purple-700 mb-2">Textauszug:</h5>
+        <p class="text-gray-700 italic mb-4">
+            "Als Gregor Samsa eines Morgens aus unruhigen Träumen erwachte, fand er sich in seinem Bett zu einem ungeheuren Ungeziefer verwandelt."
+            <br><span class="text-sm">- Franz Kafka: Die Verwandlung</span>
+        </p>
+
+        <h5 class="text-lg font-bold text-purple-700 mb-2">Mögliche Analyse:</h5>
+        <ul class="list-disc list-inside text-gray-700">
+            <li><strong>Erzählperspektive:</strong> Personaler Erzähler (Fokus auf Gregors Wahrnehmung)</li>
+            <li><strong>Charakterisierung:</strong> Gregor wird als hilflos und verwirrt dargestellt</li>
+            <li><strong>Sprachliche Mittel:</strong> Detaillierte Beschreibung des Körpers</li>
+            <li><strong>Thema/Motiv:</strong> Entfremdung, Identitätsverlust</li>
+        </ul>
+    </div>
+
+    <!-- Interaktive Aufgaben -->
+    <h4 class="text-xl font-bold text-purple-700 mb-4">📝 Interaktive Aufgaben:</h4>
+    <div id="prosa-questions" class="space-y-4">
+        <!-- Dynamische Fragen werden hier eingefügt -->
+    </div>
+    <div id="prosa-timer" class="text-purple-700 font-bold mb-4" style="display: none;">
+        Zeit bis zur nächsten Frage: <span id="prosa-countdown">10</span> Sekunden
+    </div>
+    <div id="prosa-controls" class="space-x-4" style="display: none;">
+        <button id="prosa-skip-button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">Überspringen</button>
+        <button id="prosa-next-button" class="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800" disabled>Weiter</button>
+    </div>
+
+    <!-- Zurück-Button -->
+    <button class="mt-4 bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800" onclick="showDeutschTopic('preview')">Zurück zur Übersicht</button>
+</div>
+
+<!-- Das und Dass-Thema -->
+<div id="dasunddass" class="topic" style="display: none;">
+    <h3 class="text-2xl font-bold text-purple-700 mb-4">📝 Das oder dass?</h3>
+    <p class="text-gray-700 mb-4">
+        Die Unterscheidung zwischen "das" und "dass" bereitet vielen Schwierigkeiten. Hier lernst du die Regeln und kannst sie gleich üben.
+    </p>
+
+    <!-- Merkblock -->
+    <div class="bg-purple-100 border-l-4 border-purple-700 p-4 mb-6">
+        <h4 class="text-lg font-bold text-purple-700">💡 Merke:</h4>
+        <p class="text-gray-700 mb-2">So unterscheidest du "das" und "dass":</p>
+        <ul class="list-disc list-inside text-gray-700">
+            <li><strong>das</strong> → Artikel oder Pronomen (lässt sich durch „dieses“, „welches“, „jenes“ ersetzen).</li>
+            <li><strong>dass</strong> → Konjunktion (leitet einen Nebensatz ein, nicht ersetzbar).</li>
+        </ul>
+    </div>
+
+    <!-- Erklärung und Beispiele -->
+    <h4 class="text-xl font-bold text-purple-700 mb-4">📚 Beispiele:</h4>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <!-- Das-Beispiele -->
+        <div class="bg-gray-100 p-4 rounded-lg shadow">
+            <h5 class="text-lg font-bold text-purple-700 mb-2">✅ Das (Artikel/Pronomen)</h5>
+            <ul class="list-disc list-inside text-gray-700">
+                <li><strong>Artikel:</strong> „Das Buch liegt auf dem Tisch.“</li>
+                <li><strong>Demonstrativpronomen:</strong> „Das ist mein Auto.“</li>
+                <li><strong>Relativpronomen:</strong> „Das Haus, das am Ende der Straße steht…“</li>
+            </ul>
+            <p class="mt-2 text-gray-700 italic">👉 Test: Ersetze „das“ durch „dieses“, „welches“ oder „jenes“ – wenn es passt, ist es korrekt!</p>
+        </div>
+        
+        <!-- Dass-Beispiele -->
+        <div class="bg-gray-100 p-4 rounded-lg shadow">
+            <h5 class="text-lg font-bold text-purple-700 mb-2">⚠️ Dass (Konjunktion)</h5>
+            <ul class="list-disc list-inside text-gray-700">
+                <li>„Ich hoffe, dass du kommst.“</li>
+                <li>„Er wusste nicht, dass es so spät war.“</li>
+                <li>„Wir freuen uns, dass ihr dabei seid.“</li>
+            </ul>
+            <p class="mt-2 text-gray-700 italic">👉 Test: Kannst du „dass“ durch „dieses“, „welches“ oder „jenes“ ersetzen? Nein? Dann ist es richtig!</p>
+        </div>
+    </div>
+
+    <!-- Eselsbrücke -->
+    <div class="bg-yellow-100 border-l-4 border-yellow-500 p-4 mb-6">
+        <h4 class="text-lg font-bold text-yellow-700">🧠 Eselsbrücke:</h4>
+        <p class="text-gray-700">
+            👉 <strong>Das</strong> mit nur einem „s“ kannst du durch „dieses“, „welches“ oder „jenes“ ersetzen.  
+            👉 <strong>Dass</strong> mit zwei „s“ leitet einen Nebensatz ein.  
+            📝 Merksatz: „<strong>Ich weiß, dass das richtig ist!</strong>“ – Erst „dass“ (Verbindung), dann „das“ (Artikel).
+        </p>
+    </div>
+
+    <!-- Interaktive Aufgaben -->
+    <h4 class="text-xl font-bold text-purple-700 mb-4">📝 Interaktive Aufgaben:</h4>
+    <div id="dasunddass-questions" class="space-y-4">
+        <!-- Dynamische Fragen werden hier eingefügt -->
+    </div>
+    <div id="dasunddass-timer" class="text-purple-700 font-bold mb-4" style="display: none;">
+        Zeit bis zur nächsten Frage: <span id="dasunddass-countdown">10</span> Sekunden
+    </div>
+    <div id="dasunddass-controls" class="space-x-4" style="display: none;">
+        <button id="dasunddass-skip-button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">Überspringen</button>
+        <button id="dasunddass-next-button" class="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800" disabled>Weiter</button>
+    </div>
+
+    <!-- Zurück-Button -->
+    <button class="mt-4 bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800" onclick="showDeutschTopic('preview')">Zurück zur Übersicht</button>
+</div>
+
+<div id="stilmittel" class="topic hidden">
+    <h3 class="text-2xl font-bold text-purple-700 mb-4">🎨 Stilmittel</h3>
+    <p class="text-gray-700 mb-4">
+        Stilmittel sind sprachliche Werkzeuge, die Autoren verwenden, um Texte lebendiger, eindrucksvoller oder ausdrucksstärker zu gestalten.
+    </p>
+
+    <!-- Merkblock -->
+    <div class="bg-purple-100 border-l-4 border-purple-700 p-4 mb-6">
+        <h4 class="text-lg font-bold text-purple-700">💡 Merke:</h4>
+        <ul class="list-disc pl-6 text-gray-700">
+            <li>Stilmittel machen Texte interessanter und lebendiger.</li>
+            <li>Sie helfen, Emotionen und Stimmungen auszudrücken.</li>
+            <li>Viele Stilmittel haben eine bildhafte oder übertragene Bedeutung.</li>
+            <li>Manche Stilmittel sind leicht zu erkennen, andere eher versteckt.</li>
+        </ul>
+    </div>
+
+    <!-- Tabelle mit Stilmitteln -->
+    <table class="min-w-full bg-white border border-gray-300 text-gray-900 mb-6">
+        <thead class="bg-purple-700 text-white">
+            <tr>
+                <th class="px-4 py-2 border-b">Stilmittel</th>
+                <th class="px-4 py-2 border-b">Definition</th>
+                <th class="px-4 py-2 border-b">Beispiel</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-purple-100">
+                <td class="px-4 py-2 border-b">Metapher</td>
+                <td class="px-4 py-2 border-b">Ein bildhafter Ausdruck, der etwas indirekt beschreibt.</td>
+                <td class="px-4 py-2 border-b">„Das Leben ist eine Reise."</td>
+            </tr>
+            <tr class="bg-purple-200">
+                <td class="px-4 py-2 border-b">Vergleich</td>
+                <td class="px-4 py-2 border-b">Verknüpft zwei Begriffe mit „wie" oder „als".</td>
+                <td class="px-4 py-2 border-b">„Stark wie ein Löwe."</td>
+            </tr>
+            <tr class="bg-purple-100">
+                <td class="px-4 py-2 border-b">Personifikation</td>
+                <td class="px-4 py-2 border-b">Unbelebte Dinge oder abstrakte Begriffe werden vermenschlicht.</td>
+                <td class="px-4 py-2 border-b">„Die Sonne lacht."</td>
+            </tr>
+            <tr class="bg-purple-200">
+                <td class="px-4 py-2 border-b">Alliteration</td>
+                <td class="px-4 py-2 border-b">Wörter mit gleichem Anfangsbuchstaben stehen nah beieinander.</td>
+                <td class="px-4 py-2 border-b">„Milch macht müde Männer munter."</td>
+            </tr>
+            <tr class="bg-purple-100">
+                <td class="px-4 py-2 border-b">Hyperbel</td>
+                <td class="px-4 py-2 border-b">Eine starke Übertreibung.</td>
+                <td class="px-4 py-2 border-b">„Ich habe dir das schon tausendmal gesagt!"</td>
+            </tr>
+            <tr class="bg-purple-200">
+                <td class="px-4 py-2 border-b">Ironie</td>
+                <td class="px-4 py-2 border-b">Das Gegenteil dessen, was gemeint ist, wird gesagt.</td>
+                <td class="px-4 py-2 border-b">„Das hast du ja toll gemacht!" (bei einem Fehler)</td>
+            </tr>
+            <tr class="bg-purple-100">
+                <td class="px-4 py-2 border-b">Klimax</td>
+                <td class="px-4 py-2 border-b">Eine Steigerung von Wörtern oder Aussagen.</td>
+                <td class="px-4 py-2 border-b">„Ich kam, sah und siegte."</td>
+            </tr>
+            <tr class="bg-purple-200">
+                <td class="px-4 py-2 border-b">Anapher</td>
+                <td class="px-4 py-2 border-b">Wiederholung eines Wortes oder Satzteils am Satzanfang.</td>
+                <td class="px-4 py-2 border-b">„Ich liebe es. Ich lebe es. Ich fühle es."</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Eselsbrücken -->
+    <div class="bg-yellow-100 border-l-4 border-yellow-500 p-4 mb-6">
+        <h4 class="text-lg font-bold text-yellow-700">🧠 Eselsbrücken:</h4>
+        <ul class="list-disc pl-6 text-gray-700">
+            <li><strong>Metapher:</strong> Denk an eine „Meta-Welt“ – es geht um Bilder im Kopf!</li>
+            <li><strong>Vergleich:</strong> „Wie oder als“ hilft dir, einen Vergleich zu erkennen.</li>
+            <li><strong>Personifikation:</strong> Dinge werden zu Personen – „Die Sonne lacht“.</li>
+            <li><strong>Alliteration:</strong> Achte auf „AAAAA“ – Anfangsbuchstaben sind gleich!</li>
+            <li><strong>Hyperbel:</strong> „Hyper“ bedeutet übertrieben – also extreme Übertreibungen.</li>
+            <li><strong>Ironie:</strong> Denke an sarkastische Kommentare wie „Super gemacht!“</li>
+            <li><strong>Klimax:</strong> Stufenweise steigern – von klein nach groß!</li>
+            <li><strong>Anapher:</strong> Wiederholung am Anfang – denk an ein Mantra!</li>
+        </ul>
+    </div>
+
+    <!-- Interaktive Aufgaben -->
+    <h4 class="text-xl font-bold text-purple-700 mb-4">📝 Interaktive Aufgaben:</h4>
+    <div id="stilmittel-questions" class="space-y-4">
+        <!-- Dynamische Fragen werden hier eingefügt -->
+    </div>
+    <div id="stilmittel-timer" class="text-purple-700 font-bold mb-4" style="display: none;">
+        Zeit bis zur nächsten Frage: <span id="stilmittel-countdown">10</span> Sekunden
+    </div>
+    <div id="stilmittel-controls" class="space-x-4" style="display: none;">
+        <button id="stilmittel-skip-button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">Überspringen</button>
+        <button id="stilmittel-next-button" class="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800" disabled>Weiter</button>
+    </div>
+
+    <!-- Zurück-Button -->
+    <button class="mt-4 bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800" onclick="showDeutschTopic('preview')">Zurück zur Übersicht</button>
+</div>
+
+    </section>
+    
+    <section id="mathe" style="display: none;" class="container mx-auto my-12 px-6 py-8 bg-white shadow-lg rounded-lg hover-grow">
+        <h2 class="text-3xl font-extrabold text-purple-700 mb-6">📐 Mathe</h2>
+        <p class="text-gray-700">Willkommen in der Mathe-Sektion!</p>
+    </section>
+    <section id="geschichte" style="display: none;" class="container mx-auto my-12 px-6 py-8 bg-white shadow-lg rounded-lg hover-grow">
+        <h2 class="text-3xl font-extrabold text-purple-700 mb-6">📜 Geschichte</h2>
+        <p class="text-gray-700">Willkommen in der Geschichte-Sektion!</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-purple-800 text-white text-center py-6 mt-12">
+        <p class="text-sm">© 2025 Schulwissen. Alle Rechte vorbehalten.</p>
+    </footer>
+    
     <script src="app.js"></script>
 </body>
 </html>
